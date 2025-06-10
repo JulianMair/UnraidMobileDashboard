@@ -1,0 +1,31 @@
+from fastapi import APIRouter
+from app.services.docker_services import list_containers, start_container, stop_container, show_logs, get_image
+
+router = APIRouter()
+
+@router.get("/")
+def containers():
+    """Listet alle Docker-Container auf"""
+    return list_containers()
+
+@router.get("/container-image/{image_name}")
+def get_container_image(image_name: str):
+    return get_image(image_name)
+
+@router.get("/{container_id}/logs")
+def get_logs(container_id: str):
+    """Gibt die Logs eines Containers zurück"""
+    logs = show_logs(container_id)
+    return {"logs": logs}
+
+@router.post("/{container_id}/start")
+def start(container_id: str):
+    """Startet einen Docker-Container"""
+    return start_container(container_id)
+
+@router.post("/{container_id}/stop")
+def stop(container_id: str):
+    """Stoppt einen Docker-Container"""
+    return stop_container(container_id)
+
+
