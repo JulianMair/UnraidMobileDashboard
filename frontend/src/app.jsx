@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/navbar';
+import Navbar from './layout/navbar';
 import System from './components/system';
-import Container from './components/container';
+import Container from './features/containers/containerPage';
 import Vm from './components/vm';
 import Shares from './components/shares';
 
