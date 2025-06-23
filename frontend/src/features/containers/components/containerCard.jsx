@@ -11,7 +11,7 @@ export default function ContainerCard({ container, onStart, onStop, onLogs, onOp
         <ArrowTopRightOnSquareIcon className="w-7 h-7 text-white" />
       </button>
 
-      <h2 className="text-lg font-bold text-white text-center mt-6">{container.names[0].substring(1)}</h2>
+      <h2 className="text-lg font-bold text-white text-center mt-6">{container.names[0].substring(1).toUpperCase()}</h2>
 
       <img
         src={container.labels?.['net.unraid.docker.icon'] || 'src/assets/Icons/default.png'}

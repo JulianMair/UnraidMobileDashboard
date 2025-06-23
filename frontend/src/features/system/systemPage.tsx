@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import CpuUsageBar from './components/CpuUsageBar';
+import DiskPieChart from './components/diskPieChart';
 
 function System() {
-  const [stats, setStats] = useState(null);
+  const [systemData, setSystemData] = useState(null);
 
   useEffect(() => {
     const fetchStats = () => {
       axios.get('http://127.0.0.1:8000/system')
         .then(response => {
-          setStats(response.data);
+          setSystemData(response.data);
         })
         .catch(error => {
           console.error('Fehler beim Laden der Daten:', error);
@@ -20,18 +22,13 @@ function System() {
     return () => clearInterval(interval);
   }, []);
 
-  if (!stats) {
+  if (!systemData) {
     return (
       <div className="flex justify-center items-center h-screen">
         <p className="text-white text-xl">Daten werden geladen...</p>
       </div>
     );
   }
-
-  const formatMemory = (bytes) => {
-    const gb = bytes / 1024 / 1024 / 1024;
-    return gb >= 1 ? `${gb.toFixed(2)} GB` : `${(bytes / 1024 / 1024).toFixed(2)} MB`;
-  };
 
   const formatUptime = (milliseconds) => {
     const seconds = milliseconds / 1000;
@@ -52,36 +49,46 @@ function System() {
       <div className="mb-6 border border-gray-700 rounded-lg p-6 bg-gray-800 shadow">
         <h2 className="text-2xl font-bold text-green-400 mb-4">🧠 CPU</h2>
         <p className="text-lg">
-          <span className="font-medium">CPU Usage:</span> {formatPercent(stats.cpu_usage)}
+          <span className="font-medium">CPU Usage:</span> <CpuUsageBar usage ={systemData.cpu_usage}/>
+          <p className="mt-2 text-sm">{systemData.cpu_usage.toFixed(1)}%</p>
+          <div className='columns-2'>
+            {systemData.cpu_usage_per_core.map((percent, index) => (
+              <div className="p-2 text-white">
+                  <h2 className="text-sm font-bold sb-1">CPU-Kern {index +1}</h2>
+                  <CpuUsageBar usage={percent} />
+                  <p className="mt-2 text-sm">{percent.toFixed(1)}%</p>
+              </div>
+
+            ))}
+         </div>
         </p>
       </div>
 
       {/* Memory Section */}
       <div className="mb-6 border border-gray-700 rounded-lg p-6 bg-gray-800 shadow">
         <h2 className="text-2xl font-bold text-blue-400 mb-4">💾 Arbeitsspeicher</h2>
-        <p className="text-lg"><span className="font-medium">Total:</span> {formatMemory(stats.memory.total)}</p>
-        <p className="text-lg"><span className="font-medium">Available:</span> {formatMemory(stats.memory.available)}</p>
-        <p className="text-lg"><span className="font-medium">Used:</span> {formatMemory(stats.memory.used)}</p>
+        <p className="text-lg"><span className="font-medium">Total:</span> {systemData.memory_total} GB</p>
+        <p className="text-lg"><span className="font-medium">Free:</span> {systemData.memory_free} GB</p>
+        <p className="text-lg"><span className="font-medium">Available:</span> {systemData.memory_available} GB</p>
       </div>
 
+
       {/* Disk Section */}
-      <div className="mb-6 border border-gray-700 rounded-lg p-6 bg-gray-800 shadow">
-        <h2 className="text-2xl font-bold text-purple-400 mb-4">📀 Festplatte</h2>
-        <p className="text-lg">
-          <span className="font-medium">Disk Usage:</span> {formatPercent(stats.disk_usage.percent)}
-        </p>
-        <p className="text-lg">
-          <span className="font-medium">Disk total:</span> {formatMemory(stats.disk_usage.used)}
-        </p>
-        <p className="text-lg">
-          <span className="font-medium">Disk free:</span> {formatMemory(stats.disk_usage.free)}
-        </p>
+    <div className="mb-2 border border-gray-700 rounded-lg p-6 bg-gray-800 shadow">
+        <h2 className="text-2m font-bold text-purple-400 mb-4">📀 Festplatten</h2>
+      
+      <div className="grid grid-cols-2 gap-3 w-full">
+        {systemData.disks?.map((disk, index) => (
+          <DiskPieChart key={index} disk={disk} />
+        ))}
       </div>
+
 
       {/* Uptime */}
       <div className="border-t border-gray-700 pt-4 text-center text-gray-300 mt-8">
-        <p className="text-lg"><strong>Uptime:</strong> {formatUptime(stats.uptime)}</p>
+        <p className="text-lg"><strong>Uptime:</strong> {formatUptime(systemData.uptime)}</p>
       </div>
+    </div>
     </div>
   );
 }

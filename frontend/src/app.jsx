@@ -1,10 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './layout/navbar';
-import System from './components/system';
+import System from './features/system/systemPage';
 import Container from './features/containers/containerPage';
-import Vm from './components/vm';
-import Shares from './components/shares';
+import Vm from './features/vms/vm';
+import Shares from './features/shares/shares';
+import Header from './layout/header';
 
 
 import {
@@ -17,6 +18,7 @@ import {
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
+
 
 // 🔗 HTTP Link für Queries & Mutations
 const httpLink = new HttpLink({
@@ -53,10 +55,7 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <div className="flex flex-col min-h-screen">
-          {/* Header */}
-          <header className="text-xl text-amber-50 bg-gray-500 font-bold pb-4 text-center pt-3.5">
-            Unraid Mobile Dashboard
-          </header>
+          <Header/>
 
           {/* Hauptinhalt */}
           <main className="flex-grow pb-16 bg-gray-800 text-amber-50">

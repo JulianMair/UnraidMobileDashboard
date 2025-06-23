@@ -38,7 +38,8 @@ export const ContainerActions = ({ refetch, setLogsData, setShowModal }) => {
   };
 
   const handleOpenWebsite = container => {
-    window.open(container.webui, '_blank');
+    console.log(container.ports);
+    window.open("http://192.168.178.10:"+ container.ports[1].publicPort, '_blank');
   };
 
   return {
