@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import CpuUsageBar from './components/CpuUsageBar';
 import DiskPieChart from './components/diskPieChart';
+import MemoryPieChart from './components/memoryPieChart';
+import { ServerStackIcon } from "@heroicons/react/24/outline";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
 
 function System() {
   const [systemData, setSystemData] = useState(null);
@@ -24,12 +27,12 @@ function System() {
 
   if (!systemData) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-white text-xl">Daten werden geladen...</p>
+      <div className="flex flex-col items-center justify-center h-[60vh] text-white">
+        <ArrowPathIcon className="w-10 h-10 animate-spin text-blue-400 mb-2" />
+        <p className="text-lg">Daten werden geladen...</p>
       </div>
     );
   }
-
   const formatUptime = (milliseconds) => {
     const seconds = milliseconds / 1000;
     const days = Math.floor(seconds / 86400);
@@ -65,17 +68,18 @@ function System() {
       </div>
 
       {/* Memory Section */}
-      <div className="mb-6 border border-gray-700 rounded-lg p-6 bg-gray-800 shadow">
-        <h2 className="text-2xl font-bold text-blue-400 mb-4">💾 Arbeitsspeicher</h2>
-        <p className="text-lg"><span className="font-medium">Total:</span> {systemData.memory_total} GB</p>
-        <p className="text-lg"><span className="font-medium">Free:</span> {systemData.memory_free} GB</p>
-        <p className="text-lg"><span className="font-medium">Available:</span> {systemData.memory_available} GB</p>
+      <div className="mb-2 border border-gray-700 rounded-lg p-6 bg-gray-800 shadow">
+        <h2 className="text-2xl font-bold text-purple-400 mb-4"><ServerStackIcon className="w-6 h-6 text-white" /> Ram-Auslastung</h2>
+        <MemoryPieChart 
+          memory_total={systemData.memory_total} 
+          memory_used={systemData.memory_used} 
+          memory_available={systemData.memory_available}
+        />
       </div>
-
-
+            
       {/* Disk Section */}
     <div className="mb-2 border border-gray-700 rounded-lg p-6 bg-gray-800 shadow">
-        <h2 className="text-2m font-bold text-purple-400 mb-4">📀 Festplatten</h2>
+        <h2 className="text-2xl font-bold text-purple-400 mb-4">📀 Festplatten</h2>
       
       <div className="grid grid-cols-2 gap-3 w-full">
         {systemData.disks?.map((disk, index) => (

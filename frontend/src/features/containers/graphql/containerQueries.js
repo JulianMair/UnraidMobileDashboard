@@ -22,9 +22,8 @@ export const STOP_CONTAINER = gql`
   mutation($stopId: PrefixedID!) {
     docker {
       stop(id: $stopId) {
-        names
-        state
         id
+        names
       }
     }
   }

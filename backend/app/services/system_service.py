@@ -38,7 +38,7 @@ def get_system_info():
         "cpu_usage": psutil.cpu_percent(interval=1),
         "cpu_usage_per_core": psutil.cpu_percent(interval=1, percpu=True),
         "memory_total": bytes_to_gb(memory['total']),
-        "memory_free": bytes_to_gb(memory['total']-memory['available']),
+        "memory_used": bytes_to_gb(memory['total']-memory['available']),
         "memory_available": bytes_to_gb(memory['available']),
         "disks": disks,
         "uptime": psutil.boot_time()
