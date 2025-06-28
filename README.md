@@ -2,8 +2,9 @@
 
 > Ein responsives Web-Dashboard zur Überwachung und Verwaltung deines Unraid-Servers – speziell für mobile Geräte optimiert.
 
-![Screenshot - Container Ansicht](./screenshots/containers.jpg)
-![Screenshot - Systemstatistiken](./screenshots/system.jpg)
+![Screenshot - Container Ansicht](./screenshots/Container.jpg)
+![Screenshot - Systemstatistiken](./screenshots/System.jpg)
+![Demo GIF](./screenshots/video.gif) <!-- ← Hier ist dein GIF, z.B. ein animierter Ablauf -->
 
 ---
 
@@ -25,6 +26,16 @@
 - 📱 **Mobile-first UI**
   - Perfekt nutzbar auf iPhone, Android & Tablets
   - Dunkles Farbschema & moderne Visualisierungen
+
+---
+
+## 🔜 Geplante Features
+
+- 🖥️ **VM-Verwaltung (VMS)**
+  - Übersicht, Start/Stop, Performance
+
+- 📁 **Shares & Storage-Zugriff**
+  - Anzeige & Status von SMB/NFS-Shares
 
 ---
 
