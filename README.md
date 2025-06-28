@@ -2,8 +2,8 @@
 
 > Ein responsives Web-Dashboard zur Überwachung und Verwaltung deines Unraid-Servers – speziell für mobile Geräte optimiert.
 
-![Screenshot - Container Ansicht](./screenshots/Container.jpg)
-![Screenshot - Systemstatistiken](./screenshots/System.jpg)
+![Screenshot - Container Ansicht](./screenshots/Container.jpeg)
+![Screenshot - Systemstatistiken](./screenshots/System.jpeg)
 ![Demo GIF](./screenshots/video.gif) <!-- ← Hier ist dein GIF, z.B. ein animierter Ablauf -->
 
 ---
