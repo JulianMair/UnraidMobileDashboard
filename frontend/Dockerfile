@@ -1,23 +1,24 @@
-FROM node:20
+# --- Stage 1: Build Frontend ---
+FROM node:20 AS build
 WORKDIR /app
 
-# Nur package.json kopieren (kein yarn.lock nötig)
-COPY package.json ./
+# package.json + yarn.lock kopieren und Dependencies installieren
+COPY package.json yarn.lock ./
+RUN yarn install
 
-# Abhängigkeiten installieren
-RUN npm install
-
-# Rest des Codes kopieren
+# gesamten Frontend-Code kopieren
 COPY . .
 
-# Build für Produktion
-RUN npm run build
+# Build ausführen
+RUN yarn build
 
-# Falls du in Dev laufen willst (nicht empfohlen in CI/CD):
-# CMD ["npm", "run", "dev", "--", "--host"]
-
-# Für Produktion mit Nginx:
+# --- Stage 2: Nginx für Production ---
 FROM nginx:alpine
-COPY --from=0 /app/dist /usr/share/nginx/html
+# Kopiere den Build aus Stage 1 ins Nginx HTML-Verzeichnis
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Port für den Container freigeben
 EXPOSE 80
+
+# Nginx starten
 CMD ["nginx", "-g", "daemon off;"]
