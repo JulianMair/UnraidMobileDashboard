@@ -4,3 +4,4 @@ docker
 psutil
 httpx
 sqlmodel
+passlib
