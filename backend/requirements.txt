@@ -3,3 +3,4 @@ uvicorn
 docker
 psutil
 httpx
+sqlmodel
