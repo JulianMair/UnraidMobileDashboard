@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import CpuUsageBar from './components/CpuUsageBar';
+import CpuUsageBar from './components/cpuUsageBar';
 import DiskPieChart from './components/diskPieChart';
 import MemoryPieChart from './components/memoryPieChart';
 import { ServerStackIcon } from "@heroicons/react/24/outline";
