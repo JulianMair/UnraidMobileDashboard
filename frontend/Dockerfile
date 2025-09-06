@@ -1,16 +1,23 @@
-
-# --- Stage 1: Build React ---
-FROM node:20 AS build
+FROM node:20
 WORKDIR /app
+
+# Nur package.json kopieren (kein yarn.lock nötig)
 COPY package.json ./
-RUN yarn install
+
+# Abhängigkeiten installieren
+RUN npm install
+
+# Rest des Codes kopieren
 COPY . .
-RUN yarn build   # erzeugt /app/dist
 
-# --- Stage 2: Nginx Server ---
+# Build für Produktion
+RUN npm run build
+
+# Falls du in Dev laufen willst (nicht empfohlen in CI/CD):
+# CMD ["npm", "run", "dev", "--", "--host"]
+
+# Für Produktion mit Nginx:
 FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# Nginx exposed automatisch Port 80
+COPY --from=0 /app/dist /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
