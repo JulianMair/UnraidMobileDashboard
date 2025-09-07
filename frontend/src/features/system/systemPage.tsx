@@ -11,7 +11,7 @@ function System() {
 
   useEffect(() => {
     const fetchStats = () => {
-      axios.get('http://127.0.0.1:8000/system')
+      axios.get('http://192.168.178.10:8000/system')
         .then(response => {
           setSystemData(response.data);
         })
