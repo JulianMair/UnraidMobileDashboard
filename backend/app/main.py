@@ -7,7 +7,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database.init_db import init_db
 from contextlib import asynccontextmanager
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 origins = [
     "http://192.168.178.10:8099",  # Frontend URL
@@ -22,13 +28,7 @@ app.add_middleware(
     allow_headers=["*"],        # alle Header erlauben
 )
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    init_db()
-    yield
 
-
-app = FastAPI(lifespan=lifespan)
 
 
 
