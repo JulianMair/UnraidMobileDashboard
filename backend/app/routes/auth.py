@@ -25,7 +25,7 @@ def read_user(username: str):
         raise HTTPException(status_code=404, detail="Benutzer nicht gefunden")
     return {"username": user.username, "role": user.role}
 
-@router.get("all/users")
+@router.get("/all/users")
 def read_all_users():
     users = get_all_users()
     return [{"username": user.username, "role": user.role} for user in users]

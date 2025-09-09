@@ -1,8 +1,8 @@
-name: Build & Push Docker Images
+name: Build, Test & Push Docker Images
 
 on:
   push:
-    branches: [ "main" ]  # läuft bei jedem Push auf main
+    branches: [ "main" ]
 
 jobs:
   docker:
@@ -12,6 +12,23 @@ jobs:
       # --- Code auschecken
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      # --- Python Setup für Backend-Tests
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      # --- Install backend dependencies inkl. pytest
+      - name: Install backend dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r backend/requirements-dev.txt
+
+      # --- Run backend tests
+      - name: Run backend tests
+        run: |
+          pytest backend/tests -v
 
       # --- Login bei Docker Hub
       - name: Docker Login
