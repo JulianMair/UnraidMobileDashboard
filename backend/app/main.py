@@ -5,6 +5,7 @@ from .routes.graphql import query_routes
 from .routes import auth
 from fastapi.middleware.cors import CORSMiddleware
 from app.database.init_db import init_db
+from contextlib import asynccontextmanager
 
 app = FastAPI()
 
@@ -19,9 +20,16 @@ app.add_middleware(
     allow_methods=["*"],    # Erlaubt alle HTTP-Methoden (GET, POST, PUT, etc.)
     allow_headers=["*"],    # Erlaubt alle Header
 )
-@app.on_event("startup")
-def on_startup():
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     init_db()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
+
+
 
 app.include_router(system_routes.router, prefix="/system")
 #app.include_router(docker_routes.router, prefix="/containers")

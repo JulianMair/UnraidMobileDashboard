@@ -20,3 +20,9 @@ def get_user(username: str):
         statement = select(User).where(User.username == username)
         user = session.exec(statement).first()
         return user
+
+def get_all_users():
+    with get_session() as session:
+        statement = select(User)
+        users = session.exec(statement).all()
+        return users
