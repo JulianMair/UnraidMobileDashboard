@@ -22,7 +22,7 @@ import { getMainDefinition } from '@apollo/client/utilities';
 
 // 🔗 HTTP Link für Queries & Mutations
 const httpLink = new HttpLink({
-  uri: 'http://192.168.178.10:8000/graphql/query'
+  uri: 'http://192.168.178.10:8000/graphql/query/'
 
 });
 

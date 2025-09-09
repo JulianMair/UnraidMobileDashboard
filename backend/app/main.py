@@ -10,15 +10,16 @@ from contextlib import asynccontextmanager
 app = FastAPI()
 
 origins = [
-    "http://127.0.0.1:8000",
-    # Weitere erlaubte Ursprünge können hier hinzugefügt werden
+    "http://192.168.178.10:8099",  # Frontend URL
+    "http://localhost:8099",       # lokal testen
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Oder setze ["*"], um alle Origins zuzulassen (nicht empfohlen für die Produktion)
-    allow_methods=["*"],    # Erlaubt alle HTTP-Methoden (GET, POST, PUT, etc.)
-    allow_headers=["*"],    # Erlaubt alle Header
+    allow_origins=origins,      # erlaubt nur diese Domains
+    allow_credentials=True,
+    allow_methods=["*"],        # GET, POST, PUT, DELETE etc.
+    allow_headers=["*"],        # alle Header erlauben
 )
 
 @asynccontextmanager
