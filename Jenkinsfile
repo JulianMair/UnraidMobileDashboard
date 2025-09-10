@@ -16,17 +16,16 @@ pipeline {
     }
 
     stage('Backend: Tests') {
-      steps {
         dir('backend') {
-          sh '''
-            python -m venv .venv || true
+            sh '''
+            python3 -m venv .venv
             . .venv/bin/activate
             pip install --upgrade pip
-            pip install -r requirements-dev.txt || pip install -r requirements.txt
-            pytest -q
-          '''
+            pip install -r requirements.txt
+            pip install -r requirements-dev.txt
+            pytest -v
+            '''
         }
-      }
     }
 
     stage('Docker Login') {
