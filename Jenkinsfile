@@ -53,7 +53,10 @@ pipeline {
         // -------------------------
         stage('Build & Push Backend') {
             agent {
-                docker { image 'docker:20-dind' args '--privileged' }
+                docker { 
+                    image 'docker:20-dind' 
+                    args '--privileged' 
+                }
             }
             steps {
                 dir('backend') {
@@ -70,7 +73,10 @@ pipeline {
         // -------------------------
         stage('Build & Push Frontend') {
             agent {
-                docker { image 'node:20-alpine' args '-v /var/run/docker.sock:/var/run/docker.sock' }
+                docker { 
+                    image 'node:20-alpine' 
+                    args '-v /var/run/docker.sock:/var/run/docker.sock' 
+                }
             }
             steps {
                 dir('frontend') {
