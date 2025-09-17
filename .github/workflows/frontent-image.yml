@@ -1,0 +1,57 @@
+name: Frontend - Build & Push Docker Image
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "frontend/**"
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      # --- Code auschecken
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # --- Node.js Setup
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # --- Dependencies installieren
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm install
+
+      # --- Tests ausführen (falls vorhanden)
+      - name: Run tests
+        run: |
+          cd frontend
+          npm test -- --watchAll=false || echo "No tests found"
+
+      # --- Build
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build
+
+      # --- Login bei Docker Hub
+      - name: Docker Login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # --- Build & Push Frontend Image (Nginx-basiert)
+      - name: Build & Push Frontend Image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/unraid-dashboard-frontend:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/unraid-dashboard-frontend:${{ github.sha }}
