@@ -6,8 +6,8 @@ import Container from './features/containers/containerPage';
 import Vm from './features/vms/vm';
 import Shares from './features/shares/shares';
 import Header from './layout/header';
-import Login from "./features/auth/Login";
 import PrivateRoute from "./features/auth/privateroute";
+import Login from "./features/auth/login";
 
 
 import {
