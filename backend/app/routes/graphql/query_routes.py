@@ -1,7 +1,7 @@
 from fastapi import APIRouter,FastAPI, Request
 import httpx
 import time
-router = APIRouter()
+router = APIRouter( tags=["graphql"])
 
 GRAPHQL_API_URL = "https://192.168.178.10:5012/graphql"
 API_KEY = "cd990aa35ece677fb0ed68536ba3cc579ff555e47778aca1c98b06661d510c4f"  # sicher im ENV speichern in Produktion

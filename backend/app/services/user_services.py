@@ -26,3 +26,6 @@ def get_all_users():
         statement = select(User)
         users = session.exec(statement).all()
         return users
+    
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return bcrypt.verify(plain_password, hashed_password)

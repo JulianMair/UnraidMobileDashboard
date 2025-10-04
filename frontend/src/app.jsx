@@ -6,6 +6,8 @@ import Container from './features/containers/containerPage';
 import Vm from './features/vms/vm';
 import Shares from './features/shares/shares';
 import Header from './layout/header';
+import Login from "./features/auth/Login";
+import PrivateRoute from "./features/auth/privateroute";
 
 
 import {
@@ -55,17 +57,47 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <div className="flex flex-col min-h-screen">
-          <Header/>
+          <Header />
 
           {/* Hauptinhalt */}
           <main className="flex-grow pb-16 bg-gray-800 text-amber-50">
+
             <Routes>
-              <Route path="/" element={<System />} />
-              <Route path="/system" element={<System />} />
-              <Route path="/container" element={<Container />} />
-              <Route path="/vm" element={<Vm />} />
-              <Route path="/shares" element={<Shares />} />
+              <Route path="/login" element={<Login />} />
+              <Route
+                path="/system"
+                element={
+                  <PrivateRoute>
+                    <System />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/container"
+                element={
+                  <PrivateRoute>
+                    <Container />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/vm"
+                element={
+                  <PrivateRoute>
+                    <Vm />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/shares"
+                element={
+                  <PrivateRoute>
+                    <Shares />
+                  </PrivateRoute>
+                }
+              />
             </Routes>
+
           </main>
 
           {/* Navbar */}

@@ -6,3 +6,4 @@ psutil
 httpx
 sqlmodel
 passlib
+python-jose

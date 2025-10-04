@@ -2,7 +2,8 @@ from fastapi import FastAPI
 from .routes import system_routes
 #from .routes import docker_routes
 from .routes.graphql import query_routes
-from .routes import auth
+from .routes import user_routes
+from .routes import auth_routes
 from fastapi.middleware.cors import CORSMiddleware
 from app.database.init_db import init_db
 from contextlib import asynccontextmanager
@@ -35,4 +36,5 @@ app.add_middleware(
 app.include_router(system_routes.router, prefix="/system")
 #app.include_router(docker_routes.router, prefix="/containers")
 app.include_router(query_routes.router, prefix="/graphql/query")
-app.include_router(auth.router, prefix="/auth")
+app.include_router(user_routes.router, prefix="/user")
+app.include_router(auth_routes.router, prefix="/auth")
