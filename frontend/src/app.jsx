@@ -63,7 +63,7 @@ function App() {
           <main className="flex-grow pb-16 bg-gray-800 text-amber-50">
 
             <Routes>
-              <Route path="/login" element={<Login />} />
+              <Route path="/" element={<Login />} />
               <Route
                 path="/system"
                 element={
