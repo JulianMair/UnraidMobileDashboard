@@ -4,7 +4,7 @@ function Header() {
   const [open, setOpen] = useState(false);
 
   // 👉 Username aus LocalStorage holen (z.B. beim Login speichern)
-  const username = localStorage.getItem("username") || "U";
+  const username = localStorage.getItem("username") || "U"; // Fallback zu "U" wenn kein Benutzername vorhanden
   const initial = username.charAt(0).toUpperCase();
 
   const handleLogout = () => {

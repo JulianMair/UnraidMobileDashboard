@@ -51,10 +51,12 @@ const client = new ApolloClient({
   link: splitLink,
   cache: new InMemoryCache(),
 });
+
 const token = localStorage.getItem("token");
 
 function App() {
   return (
+    
     <ApolloProvider client={client}>
       <Router>
         <div className="flex flex-col min-h-screen">
