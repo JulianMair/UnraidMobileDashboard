@@ -51,6 +51,7 @@ const client = new ApolloClient({
   link: splitLink,
   cache: new InMemoryCache(),
 });
+const token = localStorage.getItem("token");
 
 function App() {
   return (
