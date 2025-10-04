@@ -101,7 +101,7 @@ function App() {
           </main>
 
           {/* Navbar */}
-          <Navbar />
+          {token &&<Navbar />}
         </div>
       </Router>
     </ApolloProvider>

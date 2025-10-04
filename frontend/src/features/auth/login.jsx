@@ -22,6 +22,7 @@ function Login() {
     if (response.ok) {
       const data = await response.json();
       localStorage.setItem("token", data.access_token);
+      localStorage.setItem("username", data.username);
       navigate("/system"); // Weiterleiten nach Login
     } else {
       alert("Login fehlgeschlagen");
