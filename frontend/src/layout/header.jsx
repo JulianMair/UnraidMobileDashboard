@@ -1,17 +1,12 @@
 import React, { useState } from "react";
+import { useAuth } from "../features/auth/authProvider";
+
 
 function Header() {
   const [open, setOpen] = useState(false);
+  const { username, logout } = useAuth();
 
-  // 👉 Username aus LocalStorage holen (z.B. beim Login speichern)
-  const username = localStorage.getItem("username") || "U"; // Fallback zu "U" wenn kein Benutzername vorhanden
-  const initial = username.charAt(0).toUpperCase();
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    window.location.href = "/"; // Zurück zum Login
-  };
+  const initial = username ? username.charAt(0).toUpperCase() : "?";
 
   return (
     <header className="relative flex items-center justify-between px-6 py-3 bg-gray-700 text-amber-50 shadow-md">
@@ -34,7 +29,7 @@ function Header() {
                 Profil
               </li>
               <li
-                onClick={handleLogout}
+                onClick={logout}
                 className="px-4 py-2 hover:bg-red-600 cursor-pointer rounded-b-lg"
               >
                 Logout

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./authProvider";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -21,9 +23,8 @@ function Login() {
 
     if (response.ok) {
       const data = await response.json();
-      localStorage.setItem("token", data.access_token);
-      localStorage.setItem("username", username);
-      navigate("/system"); // Weiterleiten nach Login
+      login(data.access_token, username);
+      navigate("/system");
     } else {
       alert("Login fehlgeschlagen");
     }
@@ -31,26 +32,55 @@ function Login() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
-      <form onSubmit={handleLogin} className="bg-gray-800 p-6 rounded-lg shadow-lg w-80">
-        <h2 className="text-2xl mb-4 font-bold">Login</h2>
-        <input
-          type="text"
-          placeholder="Benutzername"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="w-full p-2 mb-3 rounded bg-gray-700 focus:outline-none"
-        />
-        <input
-          type="password"
-          placeholder="Passwort"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 mb-4 rounded bg-gray-700 focus:outline-none"
-        />
-        <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 p-2 rounded">
+      <div className="w-full max-w-md p-8 bg-gray-800 rounded-2xl shadow-lg">
+        <h2 className="text-3xl font-bold text-center text-amber-400 mb-6">
           Anmelden
-        </button>
-      </form>
+        </h2>
+
+        <form onSubmit={handleLogin} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">
+              Benutzername
+            </label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-400"
+              placeholder="Dein Benutzername"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">
+              Passwort
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-400"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-3 bg-amber-500 text-gray-900 font-semibold rounded-lg shadow hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-300 transition"
+          >
+            Login
+          </button>
+        </form>
+
+        <p className="mt-6 text-sm text-gray-400 text-center">
+          Kein Account?{" "}
+          <span className="text-amber-400 cursor-pointer hover:underline">
+            Registrieren
+          </span>
+        </p>
+      </div>
     </div>
   );
 }
